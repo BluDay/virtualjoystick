@@ -9,8 +9,8 @@ Futuristic UWP Virtual Joystick (C#)
 </div>
 
 ### Information
-VirtualJoystick is a virtual touch-enabled joystick, 
-made specifically for the Universal Windows Platform.
+VirtualJoystick is a virtual joystick, made 
+specifically for the Universal Windows Platform.
 
 VirtualJoystick is unlike any other UWP based joystick. VirtualJoystick
 is visually pleasing and flexible. Support for gamepad and touch is present.
