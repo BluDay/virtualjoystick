@@ -19,8 +19,10 @@ If you're operating on less powerful hardware and desire to eliminate
 all advanced visual effects, make sure to correctly tamper with all
 constant boolean variables.
 
-This is written in C# (7.x) and requires no other dependencies
+VirtualJoystick is written in C# (7.x) and requires no other dependencies
 except for the built-in ones that is included in UWP.
+
+VirtualJoystick works perfectly on a Surface Pro (2017).
 
 ### Installation
 VirtualJoystick is extremely easy to install.
