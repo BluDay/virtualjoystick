@@ -9,6 +9,7 @@ Futuristic UWP Virtual Joystick (C#)
 </div>
 
 ### Information
+
 Virtual joystick, made specifically for the Universal Windows Platform.
 
 Flexible and visually pleasing.
@@ -19,13 +20,13 @@ Works perfectly on a Microsoft Surface Pro (2017).
 
 ### Installation
 
-1. Copy ```Resources```, ```Joystick.xaml``` and ```Joystick.xaml.cs``` 
+1) Copy ```Resources```, ```Joystick.xaml``` and ```Joystick.xaml.cs``` 
 to your desired project solution. 
 
-2. Ensure that all resources are properly imported.
+2) Ensure that all resources are properly imported.
 
-3. Rebuild your project solution and correct any minor errors.
+3) Rebuild your project solution and correct any minor errors.
 
-4. Configure ```Joystick.xaml.cs``` constants.
+4) Configure ```Joystick.xaml.cs``` constants.
 
-5. Enjoy.
+5) Enjoy.
