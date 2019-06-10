@@ -10,7 +10,7 @@ Futuristic UWP Virtual Joystick (C#)
 
 ### Information
 
-Virtual joystick, made specifically for the Universal Windows Platform.
+Virtual joystick, made specifically for Universal Windows Platform.
 
 Flexible and visually pleasing.
 
