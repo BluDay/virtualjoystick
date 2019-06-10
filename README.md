@@ -14,8 +14,6 @@ Virtual joystick, made specifically for the Universal Windows Platform.
 
 Flexible and visually pleasing.
 
-Visual effects can easily be disabled through the code.
-
 Works perfectly on a Microsoft Surface Pro (2017).
 
 ### Installation
