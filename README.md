@@ -15,10 +15,7 @@ Flexible and visually pleasing.
 
 Visual effects can easily be disabled through the code.
 
-Written in C# (7.x) and requires no other dependencies
-except for the built-in ones that is included in UWP.
-
-Works perfectly on a Surface Pro (2017).
+Works perfectly on a Microsoft Surface Pro (2017).
 
 ### Installation
 
