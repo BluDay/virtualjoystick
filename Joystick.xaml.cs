@@ -1,16 +1,10 @@
-﻿/*************************************************************
+/*************************************************************
  *                                                           *
  *                    VirtualJoystick                        *
  *                                                           *
  *             Futuristic UWP Joystick Control               *
  *                                                           *
- *           No comments are provided throughout             *
- *       this file. I require the privileged user to         *
- *    fully comprehend this code by closely examining it.    *
- *                                                           *
- *            https://github.com/engineer-186f               *
- *                                                           *
- *                          (0.o)                            *
+ *                     engineer-99b                          *
  *                                                           *
  * ***********************************************************
  */
@@ -67,124 +61,40 @@ namespace PX99_Interface
 
         public enum Sides { Left, Right };
 
-        public Enum Side
-        {
-            get
-            {
-                return side;
-            }
-            set
-            {
-                side = value;
-            }
-        }
+        public Enum Side { get { return side; } set { side = value; } }
 
-        public Point Position
-        {
-            get
-            {
-                return new Point(x, y);
-            }
-        }
+        public Point Position { get { return new Point(x, y); } }
 
-        public bool Pressed
-        {
-            get
-            {
-                return pressed;
-            }
-        }
+        public bool Pressed { get { return pressed; } }
 
-        public bool LockY
-        {
-            get
-            {
-                return yLocked;
-            }
-            set
-            {
-                yLocked = value;
-            }
-        }
+        public bool LockY { get { return yLocked; } set { yLocked = value; } }
 
         public bool GamepadEnabled
         {
-            get
-            {
-                return gamepadEnabled;
-            }
-            set
-            {
-                gamepadEnabled = value;
-            }
+            get { return gamepadEnabled; }
+            set { gamepadEnabled = value; }
         }
 
-        public bool Enabled
-        {
-            get
-            {
-                return enabled;
-            }
-            set
-            {
-                enabled = value;
-            }
-        }
+        public bool Enabled { get { return enabled; } set { enabled = value; } }
 
         public double DefaultValue
-        {
-            get
-            {
-                return defaultValue;
-            }
-            set
-            {
-                defaultValue = value;
-            }
+        { 
+            get { return defaultValue; }
+            set { defaultValue = value; }
         }
 
-        public double ActualX
-        {
-            get
-            {
-                return actualX;
-            }
-        }
+        public double ActualX { get { return actualX; } }
 
-        public double ActualY
-        {
-            get
-            {
-                return actualY;
-            }
-        }
+        public double ActualY { get { return actualY; } }
 
-        public double X
-        {
-            get
-            {
-                return x;
-            }
-        }
+        public double X { get { return x; } }
 
-        public double Y
-        {
-            get
-            {
-                return y;
-            }
-        }
+        public double Y { get { return y; } }
 
         public double Sensitivity
         {
-            get
-            {
-                return sensitivity;
-            }
-            set
-            {
-                sensitivity = value / 100;
-            }
+            get { return sensitivity; }
+            set { sensitivity = value / 100; }
         }
 
         public Joystick(Sides side)
