@@ -242,7 +242,7 @@ namespace App
                 BeginAnimation(hoverBackground, false, false, true, JOYSTICK_HOVER_BG_ANIM_SPEED * 10);
                 BeginAnimation(background, true, false, true, JOYSTICK_BG_ANIM_SPEED * 10);
 
-                Storyboard sBoard = new Storyboard();
+                Storyboard board = new Storyboard();
 
                 DoubleAnimation xAnim   = new DoubleAnimation(),
                                 yAnim   = new DoubleAnimation(),
@@ -298,10 +298,10 @@ namespace App
                     Storyboard.SetTarget(animations[i], target);
                     Storyboard.SetTargetProperty(animations[i], property);
 
-                    sBoard.Children.Add(animations[i]);
+                    board.Children.Add(animations[i]);
                 }
 
-                sBoard.Begin();
+                board.Begin();
             }
             else
             {
@@ -327,7 +327,7 @@ namespace App
                 BeginAnimation(hoverBackground, false, false, true, JOYSTICK_HOVER_BG_ANIM_SPEED);
                 BeginAnimation(background, true, false, true, JOYSTICK_BG_ANIM_SPEED);
 
-                Storyboard sBoard = new Storyboard();
+                Storyboard board = new Storyboard();
 
                 DoubleAnimation xAnim   = new DoubleAnimation(),
                                 yAnim   = new DoubleAnimation(),
@@ -380,13 +380,13 @@ namespace App
                     }
                     else if (i == 2) property = "(UIElement.Opacity)";
 
-                    sBoard.Children.Add(animations[i]);
+                    board.Children.Add(animations[i]);
 
                     Storyboard.SetTarget(animations[i], i >= 2 ? stick : background);
                     Storyboard.SetTargetProperty(animations[i], property);
                 }
 
-                sBoard.Begin();
+                board.Begin();
 
                 translateTransform.X = actualX = x = 0;
 
