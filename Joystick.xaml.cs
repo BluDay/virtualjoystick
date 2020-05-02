@@ -10,6 +10,7 @@
  */
 
 using System;
+
 using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -19,120 +20,115 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Shapes;
 
-namespace PX99_Interface
+namespace ApplicationName
 {
     public sealed partial class Joystick : UserControl
     {
-        private Timer               timer;
-        private Storyboard          storyboard;
-        private GamepadManager      gamepad;
-        private TranslateTransform  translateTransform;
+        private GamepadManager			gamepad;
+        private Storyboard				storyboard;
+        private Timer					timer;
+        private TranslateTransform		translateTransform;
 
-        private bool enabled        = true;
-        private bool masterMode     = true;
-        private bool deviceIsLowEnd = false;
-        private bool pressed        = false;
-        private bool animated       = true;
-        private bool gamepadEnabled = false;
-        private bool yLocked        = false;
-        private bool backColor      = true;
+        private bool enabled			= true;
+        private bool masterMode			= true;
+        private bool deviceIsLowEnd		= false;
+        private bool pressed			= false;
+        private bool animated			= true;
+        private bool gamepadEnabled 	= false;
+        private bool yLocked			= false;
+        private bool backColor			= true;
 
-        private double defaultValue = 0;
-        private double sensitivity  = 0;
-        private double diameter     = 0;
-        private double actualX      = 0;
-        private double actualY      = 0;
-        private double radius       = 0;
-        private double x            = 0;
-        private double y            = 0;
+        private int roundDecimal = 1;
 
-        private Int32 roundDecimal = 1;
+        private double diameter			= 0;
+        private double radius			= 0;
+        private double x				= 0;
+        private double y				= 0;
+        private double actualX			= 0;
+        private double actualY			= 0;
+        private double sensitivity		= 0;
+        private double defaultValue		= 0;
+
+        private const double BACK_JOYSTICK_NORMAL_SCALE		= 0.9;
+        private const double BACK_JOYSTICK_ANIM_SPEED		= 5;
+        private const double BACK_JOYSTICK_BIG_SCALE		= 1.15;
+        private const double JOYSTICK_NORMAL_OPACITY		= 1;
+        private const double JOYSTICK_DELTA_OPACITY			= 0.75;
+        private const double JOYSTICK_SKEW_ANIM_VALUE		= 50;
+        private const double JOYSTICK_HOVER_BG_ANIM_SPEED	= 0.1;
+        private const double JOYSTICK_BG_ANIM_SPEED			= 0.05;
 
         private Enum side;
 
-        private const double BACK_JOYSTICK_NORMAL_SCALE     = 0.9;
-        private const double BACK_JOYSTICK_ANIM_SPEED       = 5;
-        private const double BACK_JOYSTICK_BIG_SCALE        = 1.15;
-        private const double JOYSTICK_NORMAL_OPACITY        = 1;
-        private const double JOYSTICK_DELTA_OPACITY         = 0.75;
-        private const double JOYSTICK_SKEW_ANIM_VALUE       = 50;
-        private const double JOYSTICK_HOVER_BG_ANIM_SPEED   = 0.1;
-        private const double JOYSTICK_BG_ANIM_SPEED         = 0.05;
-
         public enum Sides { Left, Right };
 
-        public Enum Side { get { return side; } set { side = value; } }
+        public Enum Side
+		{
+			get => side; 
+			set => side = value; 
+		}
 
-        public Point Position { get { return new Point(x, y); } }
+        public Point Position => new Point(x, y);
 
-        public bool Pressed { get { return pressed; } }
+        public bool Pressed => pressed;
 
-        public bool LockY { get { return yLocked; } set { yLocked = value; } }
+        public bool LockY
+		{
+			get => yLocked;
+			set => yLocked = value;
+		}
 
         public bool GamepadEnabled
         {
-            get { return gamepadEnabled; }
-            set { gamepadEnabled = value; }
+            get => gamepadEnabled;
+            set => gamepadEnabled = value;
         }
 
-        public bool Enabled { get { return enabled; } set { enabled = value; } }
+        public bool Enabled
+		{
+			get => enabled;
+			set => enabled = value;
+		}
 
         public double DefaultValue
-        { 
-            get { return defaultValue; }
-            set { defaultValue = value; }
+        {
+            get => defaultValue;
+            set => defaultValue = value;
         }
 
-        public double ActualX { get { return actualX; } }
+        public double X => x;
+        public double Y => y;
 
-        public double ActualY { get { return actualY; } }
-
-        public double X { get { return x; } }
-
-        public double Y { get { return y; } }
+        public double ActualX => actualX;
+        public double ActualY => actualY;
 
         public double Sensitivity
         {
-            get { return sensitivity; }
-            set { sensitivity = value / 100; }
+            get => sensitivity;
+            set => sensitivity = value / 100;
         }
 
         public Joystick(Sides side)
         {
             InitializeComponent();
 
-            this.side = side;
+            this.diameter				= joystick.Width;
+			this.radius					= diameter / 2;
+            this.side					= side;
+            this.translateTransform		= stick.RenderTransform = 
+											new TranslateTransform();
 
-            diameter = joystick.Width;
-
-            translateTransform = new TranslateTransform();
-
-            stick.RenderTransform = translateTransform;
-
-            gamepad = new GamepadManager();
-
-            timer = new Timer();
+            gamepad	= new GamepadManager();
+            timer	= new Timer();
 
             timer.TickAction = () => OnTimerTick();
 
-            if (gamepad != null)
-            {
-                Size size = new Size(joystick.Height, joystick.Width);
+			gamepad.SetJoystickDimensions(
+				new Size(joystick.Height, joystick.Width)
+			);
 
-                if (size.Width == size.Height + (size.Width / 10) ||
-                    size.Width == size.Width - (size.Width / 10) ||
-                    size.Width == size.Height)
-                    gamepad.SetJoystickDimensions(size);
-
-                gamepadEnabled = true;
-
-                TimerStart();
-            }
+			timer.Start();
         }
-
-        public void TimerStart() { timer.Start(); }
-
-        public void TimerStop() { timer.Stop(); }
 
         private async void OnTimerTick()
         {
@@ -140,10 +136,10 @@ namespace PX99_Interface
             {
                 if (gamepad.Available && gamepadEnabled && !pressed)
                 {
-                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        radius = joystick.Width / 3;
+					var priority = CoreDispatcherPriority.Normal;
 
+                    await Dispatcher.RunAsync(priority, () =>
+                    {
                         gamepad.Read();
 
                         double x = 0, y = 0;
@@ -187,7 +183,7 @@ namespace PX99_Interface
 
             OnManipulationStarted();
 
-            if (gamepadEnabled) TimerStop();
+            if (gamepadEnabled) timer.Stop();
         }
 
         private void Joystick_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
@@ -208,7 +204,7 @@ namespace PX99_Interface
 
             OnManipulationCompleted();
 
-            if (gamepadEnabled) TimerStart();
+            if (gamepadEnabled) timer.Start();
         }
 
         private void OnManipulationDelta(double x, double y)
@@ -309,20 +305,17 @@ namespace PX99_Interface
             }
             else
             {
-                CompositeTransform cTrans = new CompositeTransform();
-
-                cTrans.ScaleX = cTrans.ScaleY = BACK_JOYSTICK_BIG_SCALE;
+                background.RenderTransform = new CompositeTransform
+				{
+                	ScaleX = ScaleY = BACK_JOYSTICK_BIG_SCALE;
+				};
 
                 stick.Opacity = JOYSTICK_DELTA_OPACITY;
-
-                background.RenderTransform = cTrans;
             }
         }
 
         private void OnManipulationCompleted()
         {
-            CompositeTransform cTrans;
-
             double tempY = y;
 
             actualX = actualY = 0;
@@ -375,13 +368,11 @@ namespace PX99_Interface
 
                     if (i > 2)
                     {
-                        cTrans = new CompositeTransform
+                        stick.RenderTransform = new CompositeTransform
                         {
                             TranslateY = translateTransform.Y,
                             TranslateX = translateTransform.X
                         };
-
-                        stick.RenderTransform = cTrans;
 
                         property = "(UIElement.RenderTransform).(CompositeTransform.Translate";
 
@@ -405,13 +396,12 @@ namespace PX99_Interface
             }
             else
             {
-                cTrans = new CompositeTransform();
-
-                cTrans.ScaleX = cTrans.ScaleY = BACK_JOYSTICK_NORMAL_SCALE;
+				background.RenderTransform = new CompositeTransform
+				{
+                	ScaleX = ScaleY = BACK_JOYSTICK_NORMAL_SCALE;
+				};
 
                 stick.Opacity = JOYSTICK_NORMAL_OPACITY;
-
-                background.RenderTransform = cTrans;
 
                 translateTransform.X = actualX = x = 0;
 
@@ -443,19 +433,17 @@ namespace PX99_Interface
 
             if (gamepad != null)
             {
-                if (side.Equals(Sides.Left))
-                    gamepad.JoystickSide = "Left";
-                else if (side.Equals(Sides.Right))
-                    gamepad.JoystickSide = "Right";
+				gamepad.JoystickSide = 
+					side == Sides.Left ? "Left" : "Right";
             }
         }
 
         private void BeginAnimation(
-            Ellipse ellipse, 
-            bool    reverse, 
-            bool    reset, 
-            bool    forever, 
-            double  speed)
+            Ellipse		ellipse, 
+            bool		reverse, 
+            bool		reset, 
+            bool		forever, 
+            double		speed)
         {
             if (!enabled) return;
 
