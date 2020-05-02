@@ -20,7 +20,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Shapes;
 
-namespace ApplicationName
+namespace App
 {
     public sealed partial class Joystick : UserControl
     {
