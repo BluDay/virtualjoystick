@@ -34,7 +34,7 @@ namespace ApplicationName
 		private bool deviceIsLowEnd		= false;
 		private bool pressed			= false;
 		private bool animated			= true;
-		private bool gamepadEnabled 	= false;
+		private bool gamepadEnabled		= false;
 		private bool yLocked			= false;
 		private bool backColor			= true;
 
