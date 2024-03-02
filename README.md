@@ -1,4 +1,4 @@
-# virtual-joystick-uwp
+# virtualjoystick
 
 Virtual joystick for Universal Windows Platform.
 
