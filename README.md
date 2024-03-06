@@ -1,6 +1,6 @@
-# VirtualJoystick
+# virtualjoystick
 
-Virtual joystick for Universal Windows Platform.
+Virtual joystick control for Universal Windows Platform.
 
 Screenshots of v1:
 
