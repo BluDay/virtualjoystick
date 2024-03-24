@@ -1,5 +1,3 @@
-// ( 0 _ o )
-
 using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -7,68 +5,27 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
-namespace DroneController.Controls
+namespace VirtualJoystick
 {
     public sealed partial class Joystick : UserControl
     {
-        private bool _lockY   = false;
-        private bool _pressed = false;
+        private bool _lockY;
 
-        private double _x   = 0;
-        private double _y   = 0;
-        private double _ax  = 0;
-        private double _ay  = 0;
-        private double _dia = 0;
-        private double _rad = 0;
-        private double _sen = 1;
+        private bool _pressed;
 
-        private readonly CompositeTransform _t;
+        private double _x, _y;
 
-        public double X => _x;
-        public double Y => _y;
+        private double _actualX, _actualY;
 
-        public double ActualX => _ax;
-        public double ActualY => _ay;
+        private double _diameter;
 
-        public double Diameter
-        {
-            get => _dia;
-            set => _dia = value;
-        }
+        private double _radius;
 
-        public double Radius
-        {
-            get => _rad;
-            set => _rad = value;
-        }
+        private double _sensitivity = 1;
 
-        public double Sensitivity
-        {
-            get => _sen;
-            set
-            {
-                value = Math.Abs(value);
+        private readonly CompositeTransform _transform;
 
-                _sen = value > 1 ? value / 100 : value;
-            }
-        }
-
-        public double Size
-        {
-            get => (double)GetValue(SizeProperty);
-            set
-            {
-                base.Width = base.Height = value;
-
-                _dia = Width;
-                _rad = _dia / 2;
-
-                SetValue(SizeProperty, value);
-            }
-        }
-
-        public new double Width  => base.Width;
-        public new double Height => base.Height;
+        private readonly Storyboard _storyboard;
 
         public bool LockY
         {
@@ -78,8 +35,54 @@ namespace DroneController.Controls
 
         public bool Pressed => _pressed;
 
+        public double X => _x;
+
+        public double Y => _y;
+
+        public double ActualX => _actualX;
+
+        public double ActualY => _actualY;
+
+        public double Diameter
+        {
+            get => _diameter;
+            set => _diameter = value;
+        }
+
+        public double Radius
+        {
+            get => _radius;
+            set => _radius = value;
+        }
+
+        public double Sensitivity
+        {
+            get => _sensitivity;
+            set
+            {
+                value = Math.Abs(value);
+
+                _sensitivity = value > 1 ? value / 100 : value;
+            }
+        }
+
+        public double Size
+        {
+            get => (double)GetValue(SizeProperty);
+            set
+            {
+                Width = Height = value;
+
+                _diameter = value;
+
+                _radius = _diameter / 2;
+
+                SetValue(SizeProperty, value);
+            }
+        }
+
         public static readonly DependencyProperty SizeProperty = DependencyProperty.Register(
-            "Size",
+            nameof(Size),
             typeof(double),
             typeof(Joystick),
             new PropertyMetadata(default(double))
@@ -89,48 +92,48 @@ namespace DroneController.Controls
         {
             InitializeComponent();
 
-            _t = (CompositeTransform)Stick.RenderTransform;
+            _transform = (CompositeTransform)Stick.RenderTransform;
 
-            Size = base.Width;
+            _storyboard = Storyboard;
 
-            Storyboard.Begin();
+            Size = Width;
+
+            _storyboard.Begin();
         }
 
         private void Stick_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {
-            Storyboard.SpeedRatio *= 3;
+            _storyboard.SpeedRatio *= 3;
 
             _pressed = true;
         }
 
         private void Stick_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            double x = e.Cumulative.Translation.X * _sen,
-                   y = e.Cumulative.Translation.Y * _sen;
-
-            double r = _rad;
+            double x = e.Cumulative.Translation.X * _sensitivity,
+                   y = e.Cumulative.Translation.Y * _sensitivity;
 
             double distance = Math.Sqrt(x * x + y * y);
 
-            if (distance > r)
+            if (distance > _radius)
             {
-                x = x / distance * r;
-                y = y / distance * r;
+                x = x / distance * _radius;
+                y = y / distance * _radius;
             }
 
-            _t.TranslateX = _ax = x;
-            _t.TranslateY = _ay = y;
+            _transform.TranslateX = _actualX = x;
+            _transform.TranslateY = _actualY = y;
 
-            _x =  _ax / r;
-            _y = -_ay / r;
+            _x =  _actualX / _radius;
+            _y = -_actualY / _radius;
         }
 
         private void Stick_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            _t.TranslateX = _x = _ax = 0;
-            _t.TranslateY = _y = _ay = 0;
+            _transform.TranslateX = _x = _actualX = 0;
+            _transform.TranslateY = _y = _actualY = 0;
 
-            Storyboard.SpeedRatio /= 3;
+            _storyboard.SpeedRatio /= 3;
 
             _pressed = false;
         }
