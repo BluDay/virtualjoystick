@@ -1,21 +1,19 @@
-﻿<UserControl
-    x:Class="DroneController.Controls.Joystick"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Width="100"
-    Height="100">
+﻿<UserControl x:Class="DroneController.Controls.Joystick"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Width="100"
+             Height="100">
     <UserControl.Resources>
         <Storyboard x:Name="Storyboard">
-            <DoubleAnimation
-                From="0.0"
-                To="360.0"
-                SpeedRatio="0.2"
-                RepeatBehavior="Forever"
-                Storyboard.TargetName="ImageTransform"
-                Storyboard.TargetProperty="Rotation"/>
+            <DoubleAnimation From="0.0"
+                             To="360.0"
+                             SpeedRatio="0.2"
+                             RepeatBehavior="Forever"
+                             Storyboard.TargetName="ImageTransform"
+                             Storyboard.TargetProperty="Rotation"/>
         </Storyboard>
     </UserControl.Resources>
 
@@ -24,11 +22,10 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Ellipse
-            Fill="#33BBBBBB"
-            Stroke="#66BBBBBB"
-            StrokeThickness="2"
-            RenderTransformOrigin="0.5,0.5">
+        <Ellipse Fill="#33BBBBBB"
+                 Stroke="#66BBBBBB"
+                 StrokeThickness="2"
+                 RenderTransformOrigin="0.5,0.5">
             <Ellipse.RenderTransform>
                 <CompositeTransform/>
             </Ellipse.RenderTransform>
@@ -43,16 +40,15 @@
             </Ellipse.RenderTransform>
         </Ellipse>
 
-        <Ellipse
-            x:Name="Stick"
-            Fill="#FFBBBBBB"
-            Stroke="#FF888888"
-            StrokeThickness="1"
-            RenderTransformOrigin="0.5,0.5"
-            ManipulationMode="All"
-            ManipulationDelta="Stick_ManipulationDelta"
-            ManipulationStarted="Stick_ManipulationStarted"
-            ManipulationCompleted="Stick_ManipulationCompleted">
+        <Ellipse x:Name="Stick"
+                 Fill="#FFBBBBBB"
+                 Stroke="#FF888888"
+                 StrokeThickness="1"
+                 RenderTransformOrigin="0.5,0.5"
+                 ManipulationMode="All"
+                 ManipulationDelta="Stick_ManipulationDelta"
+                 ManipulationStarted="Stick_ManipulationStarted"
+                 ManipulationCompleted="Stick_ManipulationCompleted">
             <Ellipse.RenderTransform>
                 <CompositeTransform ScaleX="0.5" ScaleY="0.5"/>
             </Ellipse.RenderTransform>
